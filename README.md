@@ -67,3 +67,7 @@ Recommendations:
 Conclusion:
   ✓ Your operation system is ready for Kotlin Multiplatform Mobile Development!
 ```
+
+# KMP Kotlin Multiplatform New Project Wizard
+
+https://kmp.jetbrains.com/  
