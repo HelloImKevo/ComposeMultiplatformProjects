@@ -68,6 +68,58 @@ Conclusion:
   ✓ Your operation system is ready for Kotlin Multiplatform Mobile Development!
 ```
 
+
 # KMP Kotlin Multiplatform New Project Wizard
 
 https://kmp.jetbrains.com/  
+
+
+# Fleet IDE: Quick Tips
+
+https://www.jetbrains.com/help/fleet/navigation.html
+
+Goto popup --> `CMD + K` or click on the "Search" 🔍 button in the top-right corner.
+
+Full-text search (Find) --> `CMD + Shift + F`
+
+Find Fleet IDE action --> `CMD + Shift + K`
+
+
+# Running the Project
+
+## Android
+
+https://developer.android.com/studio/run/emulator-commandline  
+
+Be sure to add the `emulator` directory to your `~/.zprofile` or `~/.zshrc`:
+```shell
+export PATH=~/android-sdks/emulator:${PATH}
+```
+
+```shell
+emulator -list-avds
+
+emulator -avd Pixel_2_API_31 -netdelay none -netspeed full
+```
+
+Click on the "Run" ▶️ button. In the "RUN & DEBUG" popup window, click on:
+`composeApp [Pixel 2 API 31]`.
+
+
+## iOS
+
+This section is under construction. Still figuring out Fleet compatibility
+issues with XCode and iOS Simulator. Refer to:  
+https://youtrack.jetbrains.com/issue/FL-25004/Compose-multiplatform-cant-be-launched-in-iOS
+
+```shell
+# Example: Starts default emulator for iPhone 14 Pro, iOS 16.4
+open -a Simulator.app
+```
+
+
+## Desktop
+
+In the Fleet IDE, click on the "Run" ▶️ button in the top-right corner, which
+will open the "RUN & DEBUG" popup window. Click on `composeApp [Desktop]`. The
+project will build, and a Desktop app window will be opened in about a minute.
