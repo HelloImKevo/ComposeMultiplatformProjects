@@ -108,13 +108,38 @@ Click on the "Run" ▶️ button. In the "RUN & DEBUG" popup window, click on:
 
 ## iOS
 
-This section is under construction. Still figuring out Fleet compatibility
-issues with XCode and iOS Simulator. Refer to:  
-https://youtrack.jetbrains.com/issue/FL-25004/Compose-multiplatform-cant-be-launched-in-iOS
+Was able to deploy the `CurrencyApp/composeApp` to an iPhone 15 Simulator. 
+Still figuring out Fleet compatibility issues with Xcode and iOS Simulator.  
+Refer to:  
+https://youtrack.jetbrains.com/issue/FL-25004/Compose-multiplatform-cant-be-launched-in-iOS  
+
+macOS <-> Xcode Compatibility List
+https://developer.apple.com/support/xcode/  
+
+At the time of this writing, the minimum supported iOS & Xcode version for Fleet 
+with Compose Multiplatform is `iOS 17` and `Xcode 15`, which requires 
+`macOS Ventura 13.5`.
+
+Download Xcode 15:
+https://developer.apple.com/download/all/?q=xcode%2015.2
 
 ```shell
-# Example: Starts default emulator for iPhone 14 Pro, iOS 16.4
+# List available software updates for macOS
+softwareupdate --list
+
+# Update to Xcode 15 Command Line Tools
+softwareupdate --install "Command Line Tools beta 7 for Xcode-15.0"
+```
+
+```shell
+# List all available simulators
+xcrun simctl list devices
+
+# Example: Starts default emulator for iPhone 15 Pro Max, iOS 17.2
 open -a Simulator.app
+
+# Run a specific simulator
+xcrun simctl boot "iPhone 15"
 ```
 
 
