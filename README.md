@@ -178,3 +178,50 @@ API_KEY=cur_live_your_api_key
 For Kotlin / Compose Multiplatform projects, it requires a bit of work to share 
 `local.properties` code between Android and iOS. It is recommended to use the 
 BuildKonfig plugin: https://github.com/yshrsmz/BuildKonfig
+
+
+# App Dependencies
+
+## Voyager
+Compose on Warp Speed. A multiplatform navigation library built for,
+and seamlessly integrated with, Jetpack Compose. Create scalable Single-Activity
+apps powered by a pragmatic API.  
+
+https://github.com/adrielcafe/voyager
+
+
+## Koin
+Koin is a pragmatic lightweight dependency injection framework for Kotlin 
+developers. Koin is a DSL, a light container and a pragmatic API.  
+
+https://github.com/InsertKoinIO/koin
+
+
+## Ktor
+Ktor is an asynchronous framework for creating microservices, web applications 
+and more.  
+
+https://github.com/ktorio/ktor
+
+
+## kotlinx-datetime
+A multiplatform Kotlin library for working with date and time.  
+
+https://github.com/Kotlin/kotlinx-datetime
+
+
+## realm by MongoDB
+Realm is a mobile database that runs directly inside phones, tablets or 
+wearables. Realm’s object-oriented data model is simple to learn, doesn’t 
+need an ORM, and lets you write less code.  
+
+https://github.com/realm/realm-kotlin
+
+
+## Stately
+Stately is a state utility library to facilitate state management in
+Kotlin Multiplatform. It was originally written to facilitate development with
+the strict Kotlin/Native memory model. Stately currently provides concurrencly
+primitives and concurrent collections.  
+
+https://github.com/touchlab/Stately

@@ -41,22 +41,44 @@ compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"
 multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatformSettings" }
 multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatformSettings" }
 
+# Voyager: Compose on Warp Speed. A multiplatform navigation library built for,
+# and seamlessly integrated with, Jetpack Compose. Create scalable Single-Activity
+# apps powered by a pragmatic API.
+# https://github.com/adrielcafe/voyager
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-screen-model = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
+
+# Koin: Koin is a pragmatic lightweight dependency injection framework for Kotlin developers.
+# Koin is a DSL, a light container and a pragmatic API.
+# https://github.com/InsertKoinIO/koin
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
 
+# Ktor: Ktor is an asynchronous framework for creating microservices, web applications and more.
+# https://github.com/ktorio/ktor
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 
+# kotlinx-datetime: A multiplatform Kotlin library for working with date and time.
+# https://github.com/Kotlin/kotlinx-datetime
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "date-time" }
 
+# realm by MongoDB: Realm is a mobile database that runs directly inside phones,
+# tablets or wearables. Realm’s object-oriented data model is simple to learn,
+# doesn’t need an ORM, and lets you write less code.
+# https://github.com/realm/realm-kotlin
 mongodb-realm = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+
+# Stately: Stately is a state utility library to facilitate state management in
+# Kotlin Multiplatform. It was originally written to facilitate development with
+# the strict Kotlin/Native memory model. Stately currently provides concurrencly
+# primitives and concurrent collections.
+# https://github.com/touchlab/Stately
 stately-common = { module = "co.touchlab:stately-common", version.ref = "statelyCommon" }
 
 [plugins]
