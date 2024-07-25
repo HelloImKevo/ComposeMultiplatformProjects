@@ -148,3 +148,18 @@ xcrun simctl boot "iPhone 15"
 In the Fleet IDE, click on the "Run" ▶️ button in the top-right corner, which
 will open the "RUN & DEBUG" popup window. Click on `composeApp [Desktop]`. The
 project will build, and a Desktop app window will be opened in about a minute.
+
+
+# Third-Party Currency API
+
+https://currencyapi.com/  
+
+Work in Progress - Add your API key to:
+```shell
+# local.properties
+API_KEY=cur_live_your_api_key
+```
+
+For Kotlin / Compose Multiplatform projects, it requires a bit of work to share 
+`local.properties` code between Android and iOS. It is recommended to use the 
+BuildKonfig plugin: https://github.com/yshrsmz/BuildKonfig
