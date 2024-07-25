@@ -63,6 +63,10 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 
+# Ktor client for JVM, Android, and Native.
+# https://ktor.io/docs/client-engines.html#cio
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+
 # kotlinx-datetime: A multiplatform Kotlin library for working with date and time.
 # https://github.com/Kotlin/kotlinx-datetime
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "date-time" }
