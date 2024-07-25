@@ -1,5 +1,7 @@
 # Compose Multiplatform Projects
 
+![kotlin-version](https://img.shields.io/badge/kotlin-2.0.0-blue) ![jdk-version](https://img.shields.io/badge/JDK-11-red)
+
 https://github.com/JetBrains/compose-multiplatform  
 
 Compose Multiplatform is a declarative framework for sharing UIs across multiple 
@@ -83,6 +85,19 @@ Goto popup --> `CMD + K` or click on the "Search" 🔍 button in the top-right c
 Full-text search (Find) --> `CMD + Shift + F`
 
 Find Fleet IDE action --> `CMD + Shift + K`
+
+
+# Android Studio IDE: Project Setup
+
+- Open Android Studio.
+- Download and install the Kotlin Multiplatform plugin:
+  https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform 
+- Android Studio > Preferences > Plugins > Marketplace > Kotlin Multiplatform Mobile (by JetBrains)
+- Install and Restart Android Studio.
+
+| Kotlin Multiplatform Mobile Plugin |
+| :--------------------------------: |
+| ![Kotlin Multiplatform Mobile Plugin](Screenshots/kotlin-multiplatform-plugin.png) |
 
 
 # Running the Project
