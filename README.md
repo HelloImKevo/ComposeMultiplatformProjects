@@ -186,7 +186,7 @@ BuildKonfig plugin: https://github.com/yshrsmz/BuildKonfig
 Material 3 is the latest version of Google's open-source design system. Design 
 and build beautiful, usable products with Material 3.
 
-https://m3.material.io/
+https://m3.material.io/  
 https://material-foundation.github.io/material-theme-builder/  
 
 
