@@ -182,6 +182,14 @@ BuildKonfig plugin: https://github.com/yshrsmz/BuildKonfig
 
 # App Dependencies
 
+## App UI Material Theme
+Material 3 is the latest version of Google's open-source design system. Design 
+and build beautiful, usable products with Material 3.
+
+https://m3.material.io/
+https://material-foundation.github.io/material-theme-builder/  
+
+
 ## Voyager
 Compose on Warp Speed. A multiplatform navigation library built for,
 and seamlessly integrated with, Jetpack Compose. Create scalable Single-Activity
