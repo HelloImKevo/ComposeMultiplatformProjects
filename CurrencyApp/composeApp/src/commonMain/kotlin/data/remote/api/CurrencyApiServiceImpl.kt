@@ -1,6 +1,7 @@
 package data.remote.api
 
 import domain.CurrencyApiService
+import domain.PreferencesRepository
 import domain.model.ApiResponse
 import domain.model.Currency
 import domain.model.RequestState
@@ -14,7 +15,9 @@ import io.ktor.client.request.headers
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-class CurrencyApiServiceImpl : CurrencyApiService {
+class CurrencyApiServiceImpl(
+    private val preferences: PreferencesRepository
+) : CurrencyApiService {
 
     companion object {
 
@@ -56,8 +59,12 @@ class CurrencyApiServiceImpl : CurrencyApiService {
         return try {
             val response = httpClient.get(ENDPOINT)
             if (response.status.value == 200) {
-                println("API RESPONSE: ${response.body<String>()}")
                 val apiResponse = Json.decodeFromString<ApiResponse>(response.body())
+
+                // Persist a timestamp
+                val lastUpdated = apiResponse.meta.lastUpdatedAt
+                preferences.saveLastUpdated(lastUpdated)
+
                 RequestState.Success(data = apiResponse.data.values.toList())
             } else {
                 RequestState.Error(message = "HTTP Error Code: ${response.status}")
