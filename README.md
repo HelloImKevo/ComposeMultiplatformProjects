@@ -164,6 +164,28 @@ In the Fleet IDE, click on the "Run" ▶️ button in the top-right corner, whic
 will open the "RUN & DEBUG" popup window. Click on `composeApp [Desktop]`. The
 project will build, and a Desktop app window will be opened in about a minute.
 
+### Preview Composables in the IDE
+
+You can view `@Preview @Composable` functions in the Fleet IDE by declaring a 
+composable function like:
+```kotlin
+@Preview
+@Composable
+private fun HomeHeaderPreview() {
+    HomeHeader(
+        status = RateStatus.Stale,
+        onRatesRefresh = {}
+    )
+}
+```
+
+And then clicking the little tiny Blue + Green icon in the Fleet IDE line number
+gutter for the function signature. At the time of this writing, using 
+`CMD + SHIFT + K` and clicking on the "Open Compose Preview Output" doesn't
+seem to be working correctly. I read on this conversation thread that only
+JDK 11 is supported at this time:  
+https://github.com/JetBrains/compose-multiplatform/issues/1515  
+
 
 # Third-Party Currency API
 

@@ -7,11 +7,18 @@ import domain.CurrencyApiService
 import domain.PreferencesRepository
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import presentation.screen.HomeViewModel
 
 val appModule = module {
     single { Settings() }
     single<PreferencesRepository> { PreferencesImpl(settings = get()) }
     single<CurrencyApiService> { CurrencyApiServiceImpl(preferences = get()) }
+    factory {
+        HomeViewModel(
+            preferences = get(),
+            api = get()
+        )
+    }
 }
 
 fun initializeKoin() {
