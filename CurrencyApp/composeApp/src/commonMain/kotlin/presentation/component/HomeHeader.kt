@@ -28,8 +28,10 @@ import currencyapp.composeapp.generated.resources.refresh_ic
 import domain.model.RateStatus
 import getPlatform
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.theme.headerColor
 import ui.theme.staleColor
+import util.displayCurrentDateTime
 
 @Composable
 fun HomeHeader(
@@ -80,7 +82,7 @@ fun RatesStatus(
             Column {
                 Text(
                     // TODO: Display current Date & Time
-                    text = "October 26th, 2024",
+                    text = displayCurrentDateTime(),
                     color = Color.White
                 )
                 Text(
@@ -101,4 +103,13 @@ fun RatesStatus(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun HomeHeaderPreview() {
+    HomeHeader(
+        status = RateStatus.Stale,
+        onRatesRefresh = {}
+    )
 }
