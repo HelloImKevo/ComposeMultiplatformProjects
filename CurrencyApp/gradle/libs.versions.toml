@@ -67,6 +67,12 @@ ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "k
 # https://ktor.io/docs/client-engines.html#cio
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 
+# kotlinx-coroutines: A coroutine is a concurrency design pattern that you can use on Android to
+# simplify code that executes asynchronously.
+# https://github.com/Kotlin/kotlinx.coroutines
+kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlin-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutines" }
+
 # kotlinx-datetime: A multiplatform Kotlin library for working with date and time.
 # https://github.com/Kotlin/kotlinx-datetime
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "date-time" }
@@ -76,7 +82,6 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 # doesn’t need an ORM, and lets you write less code.
 # https://github.com/realm/realm-kotlin
 mongodb-realm = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
-kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 
 # Stately: Stately is a state utility library to facilitate state management in
 # Kotlin Multiplatform. It was originally written to facilitate development with
