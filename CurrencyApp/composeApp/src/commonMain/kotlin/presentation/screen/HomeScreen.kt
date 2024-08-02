@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
@@ -28,6 +31,8 @@ class HomeScreen : Screen {
         val sourceCurrency by viewModel.sourceCurrency
         val targetCurrency by viewModel.targetCurrency
 
+        var currencyAmount by rememberSaveable { mutableStateOf(0.0) }
+
         // TODO: Build out the Home Screen UI.
         Column(
             modifier = Modifier.fillMaxWidth()
@@ -38,6 +43,8 @@ class HomeScreen : Screen {
                 status = rateStatus.value,
                 source = sourceCurrency,
                 target = targetCurrency,
+                amount = currencyAmount,
+                onAmountChange = { currencyAmount = it },
                 onRatesRefresh = {
                     println("$TAG: HomeHeader.onRatesRefresh -> viewModel.sendEvent")
                     viewModel.sendEvent(HomeUiEvent.RefreshRates)
