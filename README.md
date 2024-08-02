@@ -99,6 +99,17 @@ Find Fleet IDE action --> `CMD + Shift + K`
 | :--------------------------------: |
 | ![Kotlin Multiplatform Mobile Plugin](Screenshots/kotlin-multiplatform-plugin.png) |
 
+## TODO: Android Compose Multiplatform Plugin
+
+To resolve the Android Studio `testClasses` build error, refer to:  
+https://youtrack.jetbrains.com/issue/IDEA-340516  
+https://stackoverflow.com/questions/78133592/kmm-project-build-error-testclasses-not-found-in-project-shared  
+```kotlin
+task("testClasses").doLast {
+    project.logger.lifecycle("Task 'testClasses' does not do anything.")
+}
+```
+
 
 # Running the Project
 

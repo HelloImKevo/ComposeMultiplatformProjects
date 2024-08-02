@@ -18,9 +18,9 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     jvm("desktop")
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -31,10 +31,10 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -111,6 +111,15 @@ android {
     buildFeatures {
         compose = true
     }
+    composeOptions {
+        // Hardcoding version due to IDE IntelliSense bug with Version Catalogs.
+        // kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
+        // kotlinCompilerExtensionVersion = libs.versions.kotlin.get()
+
+        // Compose to Kotlin Compatibility Map
+        // https://developer.android.com/jetpack/androidx/releases/compose-kotlin
+        kotlinCompilerExtensionVersion = "2.0.0"
+    }
     dependencies {
         debugImplementation(compose.uiTooling)
     }
@@ -126,4 +135,10 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+// Resolves KMP gradle build error for Android Studio:
+// Task 'testClasses' not found in project ':module'
+task("testClasses").doLast {
+    project.logger.lifecycle("Task 'testClasses' does not do anything.")
 }

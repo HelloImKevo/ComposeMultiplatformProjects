@@ -81,7 +81,6 @@ fun RatesStatus(
             Spacer(modifier = Modifier.width(12.dp))
             Column {
                 Text(
-                    // TODO: Display current Date & Time
                     text = displayCurrentDateTime(),
                     color = Color.White
                 )
