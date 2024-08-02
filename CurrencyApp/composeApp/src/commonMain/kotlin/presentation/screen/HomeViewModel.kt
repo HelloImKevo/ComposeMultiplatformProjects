@@ -20,6 +20,11 @@ class HomeViewModel(
     private val api: CurrencyApiService
 ) : ScreenModel {
 
+    companion object {
+
+        const val TAG = "HomeViewModel"
+    }
+
     private var _rateStatus: MutableState<RateStatus> =
             mutableStateOf(RateStatus.Idle)
     val rateStatus: State<RateStatus> = _rateStatus
@@ -27,11 +32,12 @@ class HomeViewModel(
     init {
         screenModelScope.launch {
             fetchNewRates()
-            getRateStatus()
         }
     }
 
     fun sendEvent(event: HomeUiEvent) {
+        println("$TAG: sendEvent -> $event")
+
         when (event) {
             is HomeUiEvent.RefreshRates -> {
                 screenModelScope.launch {
@@ -44,6 +50,7 @@ class HomeViewModel(
     private suspend fun fetchNewRates() {
         try {
             api.getLatestExchangeRates()
+            getRateStatus()
         } catch (e: Exception) {
             println(e.message)
         }
@@ -52,8 +59,10 @@ class HomeViewModel(
     private suspend fun getRateStatus() {
         val currentTimestamp: Long = Clock.System.now().toEpochMilliseconds()
         _rateStatus.value = if (preferences.isDataFresh(currentTimestamp)) {
+            println("$TAG: getRateStatus -> Updating state to: RateStatus.Fresh")
             RateStatus.Fresh
         } else {
+            println("$TAG: getRateStatus -> Updating state to: RateStatus.Stale")
             RateStatus.Stale
         }
     }

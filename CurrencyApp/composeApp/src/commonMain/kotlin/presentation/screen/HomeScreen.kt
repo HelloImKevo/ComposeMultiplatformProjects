@@ -15,6 +15,11 @@ import ui.theme.surfaceColor
 
 class HomeScreen : Screen {
 
+    companion object {
+
+        const val TAG = "HomeScreen"
+    }
+
     @Composable
     override fun Content() {
         val viewModel = getScreenModel<HomeViewModel>()
@@ -29,6 +34,7 @@ class HomeScreen : Screen {
             HomeHeader(
                 status = rateStatus.value,
                 onRatesRefresh = {
+                    println("$TAG: HomeHeader.onRatesRefresh -> viewModel.sendEvent")
                     viewModel.sendEvent(HomeUiEvent.RefreshRates)
                 },
             )

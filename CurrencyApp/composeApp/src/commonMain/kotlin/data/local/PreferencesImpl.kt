@@ -16,6 +16,8 @@ class PreferencesImpl(
 
     companion object {
 
+        const val TAG = "PreferencesImpl"
+
         const val TIMESTAMP_KEY = "lastUpdated"
     }
 
@@ -47,7 +49,8 @@ class PreferencesImpl(
                     .toLocalDateTime(TimeZone.currentSystemDefault())
 
             val daysDifference = currentDateTime.date.dayOfYear - savedDateTime.date.dayOfYear
-            daysDifference < 1
+            println("$TAG: isDataFresh -> Number of Days Difference: $daysDifference")
+            daysDifference <= 1
         } else false
     }
 }

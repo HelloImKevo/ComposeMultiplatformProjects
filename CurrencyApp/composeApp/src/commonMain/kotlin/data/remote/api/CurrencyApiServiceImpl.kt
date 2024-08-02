@@ -22,6 +22,8 @@ class CurrencyApiServiceImpl(
 
     companion object {
 
+        const val TAG = "CurrencyApiService"
+
         const val ENDPOINT = "https://api.currencyapi.com/v3/latest"
 
         // TODO: Utilize BuildKonfig plugin to move the API key to local.properties;
@@ -60,7 +62,9 @@ class CurrencyApiServiceImpl(
         return try {
             val response = httpClient.get(ENDPOINT)
             if (response.status.value == 200) {
-                val apiResponse = Json.decodeFromString<ApiResponse>(response.body())
+                val jsonString: String = response.body()
+                println("$TAG: Response Body: $jsonString")
+                val apiResponse = Json.decodeFromString<ApiResponse>(jsonString)
 
                 // Filter to only the Currency Codes we have defined in our enum.
                 val availableCurrencyCodes = apiResponse.data.keys
@@ -78,6 +82,7 @@ class CurrencyApiServiceImpl(
 
                 // Persist a timestamp
                 val lastUpdated = apiResponse.meta.lastUpdatedAt
+                println("$TAG: Saving LastUpdatedAt timestamp: $lastUpdated")
                 preferences.saveLastUpdated(lastUpdated)
 
                 RequestState.Success(data = availableCurrencies)
