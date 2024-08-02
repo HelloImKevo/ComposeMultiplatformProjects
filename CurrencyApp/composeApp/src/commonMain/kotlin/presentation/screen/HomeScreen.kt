@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
@@ -24,6 +25,8 @@ class HomeScreen : Screen {
     override fun Content() {
         val viewModel = getScreenModel<HomeViewModel>()
         val rateStatus: State<RateStatus> by lazy { viewModel.rateStatus }
+        val sourceCurrency by viewModel.sourceCurrency
+        val targetCurrency by viewModel.targetCurrency
 
         // TODO: Build out the Home Screen UI.
         Column(
@@ -33,10 +36,13 @@ class HomeScreen : Screen {
         ) {
             HomeHeader(
                 status = rateStatus.value,
+                source = sourceCurrency,
+                target = targetCurrency,
                 onRatesRefresh = {
                     println("$TAG: HomeHeader.onRatesRefresh -> viewModel.sendEvent")
                     viewModel.sendEvent(HomeUiEvent.RefreshRates)
                 },
+                onSwitchClick = {}
             )
         }
     }
