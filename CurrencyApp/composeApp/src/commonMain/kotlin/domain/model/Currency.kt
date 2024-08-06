@@ -1,5 +1,7 @@
 package domain.model
 
+import io.realm.kotlin.ext.isValid
+import io.realm.kotlin.ext.version
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlinx.serialization.SerialName
@@ -10,6 +12,7 @@ import org.mongodb.kbson.ObjectId
 open class Currency : RealmObject {
 
     @PrimaryKey
+    @Suppress("unused", "PropertyName")
     var _id: ObjectId = ObjectId()
 
     @SerialName("code")
@@ -17,6 +20,9 @@ open class Currency : RealmObject {
 
     @SerialName("value")
     var value: Double = 0.0
+
+    override fun toString(): String =
+            "Currency(code='$code', value='$value' isValid=${isValid()}, version=${version().version})"
 
     // Workaround for a compatibility bug in the K2 compiler with realm.
     // See:

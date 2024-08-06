@@ -10,8 +10,12 @@ import domain.CurrencyApiService
 import domain.MongoRepository
 import domain.PreferencesRepository
 import domain.model.Currency
+import domain.model.CurrencyCode
 import domain.model.RateStatus
 import domain.model.RequestState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -50,6 +54,8 @@ class HomeViewModel(
     init {
         screenModelScope.launch {
             fetchNewRates()
+            readSourceCurrency()
+            readTargetCurrency()
         }
     }
 
@@ -60,6 +66,54 @@ class HomeViewModel(
             is HomeUiEvent.RefreshRates -> {
                 screenModelScope.launch {
                     fetchNewRates()
+                }
+            }
+        }
+    }
+
+    private fun readSourceCurrency() {
+        screenModelScope.launch(Dispatchers.Main) {
+            println("$TAG: readSourceCurrency -> Reading the source Currency Code...")
+
+            val currencyCodeFlow: Flow<CurrencyCode> = preferences.readSourceCurrencyCode()
+
+            currencyCodeFlow.collectLatest { currencyCode ->
+                val selectedCurrency: Currency? = _allCurrencies.find {
+                    it.code == currencyCode.name
+                }
+
+                if (selectedCurrency != null) {
+                    println("$TAG: readSourceCurrency -> Found source Currency: $selectedCurrency")
+
+                    _sourceCurrency.value = RequestState.Success(data = selectedCurrency)
+                } else {
+                    _sourceCurrency.value = RequestState.Error(
+                        message = "Couldn't find the selected currency: $currencyCode"
+                    )
+                }
+            }
+        }
+    }
+
+    private fun readTargetCurrency() {
+        screenModelScope.launch(Dispatchers.Main) {
+            println("$TAG: readTargetCurrency -> Reading the target Currency Code...")
+
+            val currencyCodeFlow: Flow<CurrencyCode> = preferences.readTargetCurrencyCode()
+
+            currencyCodeFlow.collectLatest { currencyCode ->
+                val selectedCurrency: Currency? = _allCurrencies.find {
+                    it.code == currencyCode.name
+                }
+
+                if (selectedCurrency != null) {
+                    println("$TAG: readTargetCurrency -> Found target Currency: $selectedCurrency")
+
+                    _targetCurrency.value = RequestState.Success(data = selectedCurrency)
+                } else {
+                    _targetCurrency.value = RequestState.Error(
+                        message = "Couldn't find the selected currency: $currencyCode"
+                    )
                 }
             }
         }
