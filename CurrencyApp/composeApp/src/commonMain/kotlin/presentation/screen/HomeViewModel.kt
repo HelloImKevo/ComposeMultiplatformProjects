@@ -2,14 +2,17 @@ package presentation.screen
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import domain.CurrencyApiService
+import domain.MongoRepository
 import domain.PreferencesRepository
 import domain.model.Currency
 import domain.model.RateStatus
 import domain.model.RequestState
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 
@@ -17,8 +20,10 @@ sealed class HomeUiEvent {
     data object RefreshRates : HomeUiEvent()
 }
 
+@Suppress("SpellCheckingInspection")
 class HomeViewModel(
     private val preferences: PreferencesRepository,
+    private val mongoDb: MongoRepository,
     private val api: CurrencyApiService
 ) : ScreenModel {
 
@@ -30,6 +35,9 @@ class HomeViewModel(
     private var _rateStatus: MutableState<RateStatus> =
             mutableStateOf(RateStatus.Idle)
     val rateStatus: State<RateStatus> = _rateStatus
+
+    private var _allCurrencies = mutableStateListOf<Currency>()
+    val allCurrencies: List<Currency> = _allCurrencies
 
     private var _sourceCurrency: MutableState<RequestState<Currency>> =
             mutableStateOf(RequestState.Idle)
@@ -59,20 +67,57 @@ class HomeViewModel(
 
     private suspend fun fetchNewRates() {
         try {
-            api.getLatestExchangeRates()
-            getRateStatus()
+            val localCache: RequestState<List<Currency>> = mongoDb.readCurrencyData().first()
+            if (localCache.isSuccess()) {
+                if (localCache.getSuccessData().isNotEmpty()) {
+                    println("$TAG: DATABASE IS FULL")
+                    _allCurrencies.clear()
+                    _allCurrencies.addAll(localCache.getSuccessData())
+                    if (!preferences.isDataFresh(Clock.System.now().toEpochMilliseconds())) {
+                        println("$TAG: DATA NOT FRESH")
+                        fetchAndCacheTheData()
+                    } else {
+                        println("$TAG: DATA IS FRESH")
+                    }
+                } else {
+                    println("$TAG: DATABASE NEEDS DATA")
+                    fetchAndCacheTheData()
+                }
+            } else if (localCache.isError()) {
+                println("$TAG: ERROR READING LOCAL DATABASE ${localCache.getErrorMessage()}")
+            }
+
+            determineLocalRateStatus()
         } catch (e: Exception) {
             println(e.message)
         }
     }
 
-    private suspend fun getRateStatus() {
+    private suspend fun fetchAndCacheTheData() {
+        val fetchedData = api.getLatestExchangeRates()
+        if (fetchedData.isSuccess()) {
+            // Delete local currency data.
+            mongoDb.cleanUp()
+
+            fetchedData.getSuccessData().forEach {
+                println("$TAG: Adding Currency Code '${it.code}'")
+                mongoDb.insertCurrencyData(it)
+            }
+            println("$TAG: Updating _allCurrencies with ${fetchedData.getSuccessData().size} currencies")
+            _allCurrencies.clear()
+            _allCurrencies.addAll(fetchedData.getSuccessData())
+        } else if (fetchedData.isError()) {
+            println("$TAG: FETCHING FAILED -> ${fetchedData.getErrorMessage()}")
+        }
+    }
+
+    private suspend fun determineLocalRateStatus() {
         val currentTimestamp: Long = Clock.System.now().toEpochMilliseconds()
         _rateStatus.value = if (preferences.isDataFresh(currentTimestamp)) {
-            println("$TAG: getRateStatus -> Updating state to: RateStatus.Fresh")
+            println("$TAG: determineLocalRateStatus -> Updating state to: RateStatus.Fresh")
             RateStatus.Fresh
         } else {
-            println("$TAG: getRateStatus -> Updating state to: RateStatus.Stale")
+            println("$TAG: determineLocalRateStatus -> Updating state to: RateStatus.Stale")
             RateStatus.Stale
         }
     }
