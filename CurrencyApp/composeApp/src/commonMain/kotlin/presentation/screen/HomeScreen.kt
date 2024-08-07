@@ -46,10 +46,13 @@ class HomeScreen : Screen {
                 amount = currencyAmount,
                 onAmountChange = { currencyAmount = it },
                 onRatesRefresh = {
-                    println("$TAG: HomeHeader.onRatesRefresh -> viewModel.sendEvent")
+                    println("$TAG: HomeHeader.onRatesRefresh -> viewModel.sendEvent( RefreshRates )")
                     viewModel.sendEvent(HomeUiEvent.RefreshRates)
                 },
-                onSwitchClick = {}
+                onSwitchClick = {
+                    println("$TAG: HomeHeader.onSwitchClick -> viewModel.sendEvent( SwitchCurrencies )")
+                    viewModel.sendEvent(HomeUiEvent.SwitchCurrencies)
+                }
             )
         }
     }

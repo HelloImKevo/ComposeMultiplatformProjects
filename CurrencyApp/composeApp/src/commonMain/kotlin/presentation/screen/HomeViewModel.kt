@@ -22,6 +22,7 @@ import kotlinx.datetime.Clock
 
 sealed class HomeUiEvent {
     data object RefreshRates : HomeUiEvent()
+    data object SwitchCurrencies : HomeUiEvent()
 }
 
 @Suppress("SpellCheckingInspection")
@@ -67,6 +68,10 @@ class HomeViewModel(
                 screenModelScope.launch {
                     fetchNewRates()
                 }
+            }
+
+            is HomeUiEvent.SwitchCurrencies -> {
+                switchCurrencies()
             }
         }
     }
@@ -174,5 +179,12 @@ class HomeViewModel(
             println("$TAG: determineLocalRateStatus -> Updating state to: RateStatus.Stale")
             RateStatus.Stale
         }
+    }
+
+    private fun switchCurrencies() {
+        val source = _sourceCurrency.value
+        val target = _targetCurrency.value
+        _sourceCurrency.value = target
+        _targetCurrency.value = source
     }
 }

@@ -22,7 +22,7 @@ open class Currency : RealmObject {
     var value: Double = 0.0
 
     override fun toString(): String =
-            "Currency(code='$code', value='$value' isValid=${isValid()}, version=${version().version})"
+            "Currency(code='$code', value='$value' isValid=${isValid()})"
 
     // Workaround for a compatibility bug in the K2 compiler with realm.
     // See:
