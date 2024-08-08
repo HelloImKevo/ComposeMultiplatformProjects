@@ -161,12 +161,31 @@ softwareupdate --install "Command Line Tools beta 7 for Xcode-15.0"
 # List all available simulators
 xcrun simctl list devices
 
-# Example: Starts default emulator for iPhone 15 Pro Max, iOS 17.2
-open -a Simulator.app
-
-# Run a specific simulator
+# Boot a specific simulator. It may not come to the foreground automatically;
+# you may need to use 'open' to open the Simulator UI.
 xcrun simctl boot "iPhone 15"
+
+# Launch a new default Simulator instance, or bring a Booted simulator to the
+# foreground. Example default emulator: iPhone 15 Pro Max, iOS 17.2
+open -a Simulator.app
 ```
+
+### iOS Simulator Troubleshooting
+If you run into the below error:
+```
+$ xcrun simctl boot "iPhone 15"
+
+An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=60):
+Unable to boot the Simulator.
+launchd failed to respond.
+Underlying error (domain=com.apple.SimLaunchHostService.RequestError, code=4):
+    Failed to start launchd_sim: could not bind to session, launchd_sim may have crashed or quit responding
+```
+
+Click Apple Icon => 'About this Mac' => More Info => System Setting  
+  => General => Storage => 'Storage Settings' => Developer => Delete 'Xcode Caches'.  
+
+Then you should be able to boot up a Simulator.
 
 
 ## Desktop
