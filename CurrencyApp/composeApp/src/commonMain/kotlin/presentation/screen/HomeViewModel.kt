@@ -14,6 +14,7 @@ import domain.model.CurrencyCode
 import domain.model.RateStatus
 import domain.model.RequestState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
@@ -23,6 +24,8 @@ import kotlinx.datetime.Clock
 sealed class HomeUiEvent {
     data object RefreshRates : HomeUiEvent()
     data object SwitchCurrencies : HomeUiEvent()
+    data class SaveSourceCurrencyCode(val code: String) : HomeUiEvent()
+    data class SaveTargetCurrencyCode(val code: String) : HomeUiEvent()
 }
 
 @Suppress("SpellCheckingInspection")
@@ -73,6 +76,14 @@ class HomeViewModel(
             is HomeUiEvent.SwitchCurrencies -> {
                 switchCurrencies()
             }
+
+            is HomeUiEvent.SaveSourceCurrencyCode -> {
+                saveSourceCurrencyCode(event.code)
+            }
+
+            is HomeUiEvent.SaveTargetCurrencyCode -> {
+                saveTargetCurrencyCode(event.code)
+            }
         }
     }
 
@@ -82,6 +93,9 @@ class HomeViewModel(
 
             val currencyCodeFlow: Flow<CurrencyCode> = preferences.readSourceCurrencyCode()
 
+            // We are using a Flow to observe these currency codes from the persistence
+            // repository. Whenever we save a new value, the Flow will immediately trigger
+            // and update the SOURCE currency that we are already observing from the UI.
             currencyCodeFlow.collectLatest { currencyCode ->
                 val selectedCurrency: Currency? = _allCurrencies.find {
                     it.code == currencyCode.name
@@ -106,6 +120,9 @@ class HomeViewModel(
 
             val currencyCodeFlow: Flow<CurrencyCode> = preferences.readTargetCurrencyCode()
 
+            // We are using a Flow to observe these currency codes from the persistence
+            // repository. Whenever we save a new value, the Flow will immediately trigger
+            // and update the TARGET currency that we are already observing from the UI.
             currencyCodeFlow.collectLatest { currencyCode ->
                 val selectedCurrency: Currency? = _allCurrencies.find {
                     it.code == currencyCode.name
@@ -186,5 +203,17 @@ class HomeViewModel(
         val target = _targetCurrency.value
         _sourceCurrency.value = target
         _targetCurrency.value = source
+    }
+
+    private fun saveSourceCurrencyCode(code: String) {
+        screenModelScope.launch(Dispatchers.IO) {
+            preferences.saveSourceCurrencyCode(code)
+        }
+    }
+
+    private fun saveTargetCurrencyCode(code: String) {
+        screenModelScope.launch(Dispatchers.IO) {
+            preferences.saveTargetCurrencyCode(code)
+        }
     }
 }

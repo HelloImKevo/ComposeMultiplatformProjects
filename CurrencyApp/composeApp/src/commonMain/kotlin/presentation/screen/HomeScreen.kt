@@ -41,9 +41,9 @@ class HomeScreen : Screen {
         var selectedCurrencyType: CurrencyType by remember {
             mutableStateOf(CurrencyType.None)
         }
-        // TODO: This is temporary code for demonstration purposes (it will always show
-        //  the Alert Dialog when the app is started).
-        var dialogOpened by remember { mutableStateOf(true) }
+        // Flipping the state of this boolean will trigger a recomposition to
+        // either show or hide the AlertDialog.
+        var dialogOpened by remember { mutableStateOf(false) }
 
         // TODO: Build out the Home Screen UI.
         Column(
@@ -64,18 +64,45 @@ class HomeScreen : Screen {
                 onSwitchClick = {
                     println("$TAG: HomeHeader.onSwitchClick -> viewModel.sendEvent( SwitchCurrencies )")
                     viewModel.sendEvent(HomeUiEvent.SwitchCurrencies)
+                },
+                onCurrencyTypeSelect = { currencyType ->
+                    selectedCurrencyType = currencyType
+                    dialogOpened = true
                 }
             )
         }
 
-        if (dialogOpened) {
+        if (dialogOpened && selectedCurrencyType != CurrencyType.None) {
             CurrencyPickerDialog(
                 currencies = allCurrencies,
                 currencyType = selectedCurrencyType,
-                onConfirmClick = {
+                onConfirmClick = { currencyCode ->
+                    if (selectedCurrencyType is CurrencyType.Source) {
+                        println(
+                            "$TAG: HomeHeader.AlertDialog.onSwitchClick ->" +
+                                    " viewModel.sendEvent( Save SOURCE CurrencyCode=${currencyCode.name} )"
+                        )
+                        viewModel.sendEvent(
+                            HomeUiEvent.SaveSourceCurrencyCode(
+                                code = currencyCode.name
+                            )
+                        )
+                    } else if (selectedCurrencyType is CurrencyType.Target) {
+                        println(
+                            "$TAG: HomeHeader.AlertDialog.onSwitchClick ->" +
+                                    " viewModel.sendEvent( Save TARGET CurrencyCode=${currencyCode.name} )"
+                        )
+                        viewModel.sendEvent(
+                            HomeUiEvent.SaveTargetCurrencyCode(
+                                code = currencyCode.name
+                            )
+                        )
+                    }
+                    selectedCurrencyType = CurrencyType.None
                     dialogOpened = false
                 },
                 onDismiss = {
+                    selectedCurrencyType = CurrencyType.None
                     dialogOpened = false
                 }
             )
