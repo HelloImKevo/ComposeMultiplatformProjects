@@ -52,6 +52,7 @@ import domain.model.RequestState
 import getPlatform
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import presentation.component.preview.PreviewData
 import ui.theme.headerColor
 import ui.theme.staleColor
 import util.displayCurrentDateTime
@@ -316,22 +317,4 @@ private fun CurrencyInputsPreview() {
         onSwitchClick = {},
         onCurrencyTypeSelect = {}
     )
-}
-
-private object PreviewData {
-
-    val USD = RequestState.Success(Currency().apply {
-        code = "USD"
-        value = 1.25
-    })
-
-    val EUR = RequestState.Success(Currency().apply {
-        code = "EUR"
-        value = 7.25
-    })
-
-    val MXN = RequestState.Success(Currency().apply {
-        code = "MXN"
-        value = 16.80
-    })
 }
