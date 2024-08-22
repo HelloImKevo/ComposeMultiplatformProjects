@@ -23,6 +23,17 @@ https://developer.android.com/studio
 https://developer.apple.com/xcode/  
 
 
+# Live Action Screenshots
+
+| Running on an Android Pixel Emulator |
+| :--------------------------------: |
+| ![Android Emulator](Screenshots/android-emulator.png) |
+
+| Running on an iOS iPhone 15 Simulator |
+| :--------------------------------: |
+| ![iOS Simulator](Screenshots/ios-simulator.png) |
+
+
 # Environment Setup
 
 ```shell
