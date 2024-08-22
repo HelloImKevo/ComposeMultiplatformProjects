@@ -170,6 +170,10 @@ xcrun simctl boot "iPhone 15"
 open -a Simulator.app
 ```
 
+In the Fleet IDE, click on the "Run" ▶️ button. In the "RUN & DEBUG" popup window,
+click on: `iosApp [iPhone 15 | iOS 17.2]`.
+
+
 ### iOS Simulator Troubleshooting
 If you run into the below error:
 ```
