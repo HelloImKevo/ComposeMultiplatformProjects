@@ -37,6 +37,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import presentation.component.preview.PreviewData
 import ui.theme.headerColor
 import util.DoubleConverter
+import util.GetBebasFontFamily
 import util.calculateExchangeRate
 import util.convert
 
@@ -71,6 +72,7 @@ fun HomeBody(
                 modifier = Modifier.fillMaxWidth(),
                 text = "${(animatedExchangedAmount * 100).toLong() / 100.0}",
                 fontSize = 60.sp,
+                fontFamily = GetBebasFontFamily(),
                 color = if (isSystemInDarkTheme()) Color.White else Color.Black,
                 textAlign = TextAlign.Center
             )
