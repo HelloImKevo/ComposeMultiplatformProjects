@@ -147,8 +147,7 @@ class HomeViewModel(
             if (localCache.isSuccess()) {
                 if (localCache.getSuccessData().isNotEmpty()) {
                     println("$TAG: DATABASE IS FULL")
-                    _allCurrencies.clear()
-                    _allCurrencies.addAll(localCache.getSuccessData())
+                    rebuildAllCurrencies(currencies = localCache.getSuccessData())
                     if (!preferences.isDataFresh(Clock.System.now().toEpochMilliseconds())) {
                         println("$TAG: DATA NOT FRESH")
                         fetchAndCacheTheData()
@@ -180,11 +179,19 @@ class HomeViewModel(
                 mongoDb.insertCurrencyData(it)
             }
             println("$TAG: Updating _allCurrencies with ${fetchedData.getSuccessData().size} currencies")
-            _allCurrencies.clear()
-            _allCurrencies.addAll(fetchedData.getSuccessData())
+            rebuildAllCurrencies(currencies = fetchedData.getSuccessData())
         } else if (fetchedData.isError()) {
             println("$TAG: FETCHING FAILED -> ${fetchedData.getErrorMessage()}")
         }
+    }
+
+    /**
+     * Prevents a UI bug where duplicate currency entries are appended to the list
+     * displayed in the Alert Dialog search results.
+     */
+    private fun rebuildAllCurrencies(currencies: List<Currency>) = with(_allCurrencies) {
+        clear()
+        addAll(currencies)
     }
 
     private suspend fun determineLocalRateStatus() {

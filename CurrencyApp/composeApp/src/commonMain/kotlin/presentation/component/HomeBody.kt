@@ -37,6 +37,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import presentation.component.preview.PreviewData
 import ui.theme.headerColor
 import util.DoubleConverter
+import util.calculateExchangeRate
+import util.convert
 
 /**
  * @param amount The amount that the user types in the [AmountInput] field.
@@ -74,6 +76,7 @@ fun HomeBody(
             )
             AnimatedVisibility(visible = source.isSuccess() && target.isSuccess()) {
                 Column {
+                    // 1 USD = 22.4559 CZK (Czech Koruna)
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = "1 ${source.getSuccessData().code} = " +
@@ -85,6 +88,7 @@ fun HomeBody(
                         textAlign = TextAlign.Center,
                         lineHeight = 20.sp
                     )
+                    // 1 EUR = 83.8470 INR (Indian Rupee)
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = "1 ${target.getSuccessData().code} = " +
@@ -110,7 +114,14 @@ fun HomeBody(
                     ),
             onClick = {
                 if (source.isSuccess() && target.isSuccess()) {
-                    // TODO: Calculate the exchange rate between Source and Target
+                    val exchangeRate: Double = calculateExchangeRate(
+                        source = source.getSuccessData().value,
+                        target = target.getSuccessData().value
+                    )
+                    exchangedAmount = convert(
+                        amount = amount,
+                        exchangeRate = exchangeRate
+                    )
                 }
             },
             colors = ButtonDefaults.buttonColors(

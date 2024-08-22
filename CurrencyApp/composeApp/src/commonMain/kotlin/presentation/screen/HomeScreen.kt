@@ -18,6 +18,7 @@ import domain.model.Currency
 import domain.model.CurrencyType
 import domain.model.RateStatus
 import presentation.component.CurrencyPickerDialog
+import presentation.component.HomeBody
 import presentation.component.HomeHeader
 import ui.theme.surfaceColor
 
@@ -36,7 +37,7 @@ class HomeScreen : Screen {
         val sourceCurrency by viewModel.sourceCurrency
         val targetCurrency by viewModel.targetCurrency
 
-        var currencyAmount by rememberSaveable { mutableStateOf(0.0) }
+        var currencyAmount: Double by rememberSaveable { mutableStateOf(0.0) }
 
         var selectedCurrencyType: CurrencyType by remember {
             mutableStateOf(CurrencyType.None)
@@ -45,12 +46,12 @@ class HomeScreen : Screen {
         // either show or hide the AlertDialog.
         var dialogOpened by remember { mutableStateOf(false) }
 
-        // TODO: Build out the Home Screen UI.
         Column(
             modifier = Modifier.fillMaxWidth()
                     .background(surfaceColor),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Display the two Currency Types (ex: USD and EUR), with a "Switch" button.
             HomeHeader(
                 status = rateStatus.value,
                 source = sourceCurrency,
@@ -69,6 +70,12 @@ class HomeScreen : Screen {
                     selectedCurrencyType = currencyType
                     dialogOpened = true
                 }
+            )
+            // Display a large numeric value, with a "Convert" button.
+            HomeBody(
+                source = sourceCurrency,
+                target = targetCurrency,
+                amount = currencyAmount
             )
         }
 

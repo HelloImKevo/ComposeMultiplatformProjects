@@ -4,6 +4,14 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
+fun calculateExchangeRate(source: Double, target: Double): Double {
+    return target / source
+}
+
+fun convert(amount: Double, exchangeRate: Double): Double {
+    return amount * exchangeRate
+}
+
 fun displayCurrentDateTime(): String {
     val currentTimestamp = Clock.System.now()
     val date = currentTimestamp.toLocalDateTime(TimeZone.currentSystemDefault())
